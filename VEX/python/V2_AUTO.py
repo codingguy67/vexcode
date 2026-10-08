@@ -64,15 +64,15 @@ calibrate_drivetrain()
 # mechanism and how the Robot sits against the Pyramid Goal wall.
 ARM_LIFT_DEG = 135       # raises the carrier so the Preload clears the L1 lip
 FLAP_RELEASE_DEG = 90    # spins the outtake flap to tip the Preload onto L1
-RETREAT_IN = 6           # backs off so the Bean Bag isn't touching the Robot
+RETREAT_IN = 20      # backs off so the Bean Bag isn't touching the Robot
                          # at Match end, which <SC4a> requires to count as scored
 
 def autonomous_routine():
-    brain.screen.print("Skills: L1 Score")
+    brain.screen.print("Robot Start")
     brain.screen.new_line()
 
-    drivetrain.set_drive_velocity(40, PERCENT)
-    drivetrain.set_turn_velocity(30, PERCENT)
+    drivetrain.set_drive_velocity(50, PERCENT)
+    drivetrain.set_turn_velocity(20, PERCENT)
     arm_motor.set_velocity(50, PERCENT)
     flap_motor.set_velocity(50, PERCENT)
 
@@ -82,15 +82,32 @@ def autonomous_routine():
     # Deposit the Preload onto the L1 surface (3 points, <SC4>)
     arm_motor.spin_for(REVERSE, ARM_LIFT_DEG, DEGREES)
     flap_motor.spin_for(FORWARD, FLAP_RELEASE_DEG, DEGREES)
-
+    
     # Clear away so the scored Bean Bag isn't contacting the Robot, and stow.
     # NOTE: on this Robot, REVERSE drives toward the wall - FORWARD is what
     # actually backs away from it (confirmed on the field 2026-09-04).
-    drivetrain.drive_for(FORWARD, RETREAT_IN, INCHES)
-    arm_motor.spin_for(FORWARD, ARM_LIFT_DEG, DEGREES)
-    drivetrain.stop()
+    drivetrain.drive_for(FORWARD, 11, INCHES)
+    drivetrain.set_stopping(HOLD)
+    wait(2, SECONDS)
+    brain.screen.print("Robot 1 move complete")
+    brain.screen.new_line()
+    # calibrate_drivetrain()
+    drivetrain.turn_for(RIGHT, 70, DEGREES)
+    wait(2, SECONDS)
+    brain.screen.print("Robot 1 turn complete")
+    brain.screen.new_line()
 
-    brain.screen.print("L1 scored")
+    drivetrain.drive_for(FORWARD, 3,INCHES)
+    wait(2, SECONDS)
+    brain.screen.print("Robot 2 move complete")
+    brain.screen.new_line()
+    calibrate_drivetrain()
+    drivetrain.turn_for(RIGHT, 70, DEGREES)
+    wait(2, SECONDS)
+
+    brain.screen.print("Robot turn complete")
+
+    
 
 # Run the project
 autonomous_routine()
