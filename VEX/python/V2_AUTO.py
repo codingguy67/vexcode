@@ -1,6 +1,6 @@
 #region VEXcode Generated Robot Configuration
 from vex import *
-import urandom
+import random
 import math
 
 # Brain should be defined by default
@@ -24,7 +24,7 @@ def initializeRandomSeed():
     yaxis = brain_inertial.acceleration(YAXIS) * 1000
     zaxis = brain_inertial.acceleration(ZAXIS) * 1000
     systemTime = brain.timer.system() * 100
-    urandom.seed(int(xaxis + yaxis + zaxis + systemTime)) 
+    random.seed(int(xaxis + yaxis + zaxis + systemTime)) 
     
 # Initialize random seed 
 initializeRandomSeed()
@@ -72,7 +72,7 @@ def autonomous_routine():
     brain.screen.new_line()
 
     drivetrain.set_drive_velocity(50, PERCENT)
-    drivetrain.set_turn_velocity(20, PERCENT)
+    drivetrain.set_turn_velocity(30, PERCENT)
     arm_motor.set_velocity(50, PERCENT)
     flap_motor.set_velocity(50, PERCENT)
 
@@ -86,13 +86,13 @@ def autonomous_routine():
     # Clear away so the scored Bean Bag isn't contacting the Robot, and stow.
     # NOTE: on this Robot, REVERSE drives toward the wall - FORWARD is what
     # actually backs away from it (confirmed on the field 2026-09-04).
-    drivetrain.drive_for(FORWARD, 11, INCHES)
-    drivetrain.set_stopping(HOLD)
-    wait(2, SECONDS)
+    drivetrain.drive_for(FORWARD, 13, INCHES)
+    # drivetrain.set_stopping(HOLD)
+    wait(1, SECONDS)
     brain.screen.print("Robot 1 move complete")
     brain.screen.new_line()
     # calibrate_drivetrain()
-    drivetrain.turn_for(RIGHT, 70, DEGREES)
+    drivetrain.turn_for(RIGHT, 270, DEGREES)
     wait(2, SECONDS)
     brain.screen.print("Robot 1 turn complete")
     brain.screen.new_line()
